@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ABA Trial Counter">
+<meta name="theme-color" content="#f7f7f8">
+<title>ABA Trial Counter</title>
+<style>
+:root{--b:#d4d4d8;--bg:#f7f7f8;--c:#2563eb;--m:#71717a;--d:#b91c1c;--soft:#eff6ff;--ok:#166534;--ink:#18181b;--pos:#166534;--posbg:#f0fdf4;--neg:#b91c1c;--negbg:#fef2f2;--amber:#92400e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink)}
+main{max-width:900px;margin:auto;padding:12px 12px 24px}
+.brand{background:linear-gradient(180deg,#fff 0%,#f8fbff 100%);border:1px solid #dbeafe;border-radius:18px;padding:15px;box-shadow:0 3px 12px rgba(37,99,235,.07);margin:4px 0 12px}
+h1{font-size:1.46rem;margin:0 0 4px;line-height:1.15}
+.tagline{font-size:.86rem;color:#475569;font-weight:750}
+.intro,.sub,.privacy,.credit,.help{color:var(--m);font-size:.8rem;line-height:1.45}
+.intro{margin-top:5px}
+.top,.bottom{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+label{font-size:.85rem;font-weight:700}
+input,select,textarea,button{font:inherit}
+input[type=date],select,textarea{width:100%;min-height:44px;border:1px solid var(--b);border-radius:10px;background:#fff;padding:10px;margin-top:5px}
+details{background:#fff;border:1px solid var(--b);border-radius:14px;padding:12px;margin:12px 0}
+summary{font-weight:850;cursor:pointer}
+.quick{margin:10px 0 0;padding-left:20px;color:#3f3f46;font-size:.86rem;line-height:1.55}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+button,.fileLabel{min-height:44px;border:1px solid var(--b);border-radius:10px;background:#fff;padding:9px 13px;font-weight:800}
+button:disabled{opacity:.38}
+.primary{background:var(--c);color:#fff;border-color:var(--c)}
+.fileLabel{display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.fileLabel input{display:none}
+.active{background:#fff;border:1px solid var(--b);border-radius:16px;padding:14px;margin:12px 0}
+.active-title{font-size:.78rem;color:var(--m);margin-bottom:4px}
+#activeProgram{font-weight:850;font-size:1.05rem}
+.active-stats{font-size:.86rem;color:#52525b;margin-top:4px}
+.trial-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.trial-buttons button{min-height:68px;font-size:1.05rem}
+#positiveBtn{background:var(--posbg);color:var(--pos);border-color:#86efac}
+#negativeBtn{background:var(--negbg);color:var(--neg);border-color:#fecaca}
+#undoBtn{width:100%;margin-top:9px}
+#undoBtn:not(:disabled){background:#fff7ed;color:#9a3412;border-color:#fed7aa}
+.empty{background:linear-gradient(180deg,#fff 0%,#f8fbff 100%);border:1px dashed #93c5fd;border-radius:14px;padding:24px;text-align:center;color:var(--m)}
+.empty strong{display:block;color:var(--ink);font-size:1rem;margin-bottom:6px}
+.empty .starter{margin-top:10px}
+.program-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.program-card{background:#fff;border:1px solid var(--b);border-radius:15px;padding:12px;cursor:pointer}
+.program-card.active-card{border-color:var(--c);box-shadow:0 0 0 3px #dbeafe}
+.program-card.completed{border-color:#86efac;background:#fbfffc}
+.program-name{font-weight:850;line-height:1.25;margin-bottom:8px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.stat{border-radius:10px;padding:8px;text-align:center;background:#f8fafc}
+.stat strong{display:block;font-size:1rem}
+.stat small{font-size:.72rem;color:var(--m)}
+.stat.pos{background:var(--posbg);color:var(--pos)}
+.stat.neg{background:var(--negbg);color:var(--neg)}
+.progress{height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:10px 0 7px}
+.progress>div{height:100%;background:var(--c);width:0}
+.status{font-size:.76rem;font-weight:800}
+.status.inprogress{color:var(--amber)}
+.status.completed{color:var(--pos)}
+.manage{background:#fff;border:1px solid var(--b);border-radius:14px;padding:12px;margin:12px 0;display:none}
+.manage.open{display:block}
+.manage-row{display:flex;gap:8px;align-items:center;border-bottom:1px solid #eee;padding:8px 0}
+.manage-row span{flex:1;font-weight:700}
+.danger{color:var(--d);border-color:#fecaca}
+.transfer{border-top:1px solid #e4e4e7;margin-top:14px;padding-top:14px}
+.transfer h3{font-size:.9rem;margin:0 0 6px}
+#transferText{min-height:92px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78rem}
+.transfer-status{font-size:.78rem;color:var(--ok);min-height:18px;margin-top:6px}
+.card{background:#fff;border:1px solid var(--b);border-radius:14px;padding:12px}
+.card h2{font-size:.95rem;margin:0 0 8px}
+textarea{min-height:100px}
+.privacy{margin-top:14px;background:#fafafa;border:1px solid #e4e4e7;border-radius:12px;padding:10px}
+.credit{text-align:center;margin:18px 0 6px}
+@media(max-width:640px){.top,.bottom{grid-template-columns:1fr}.program-grid{grid-template-columns:1fr}.actions button,.actions .fileLabel{flex:1 1 45%}.manage-row{align-items:flex-start}}
+</style>
+</head>
+<body><main>
+<section class="brand"><h1>ABA Trial Counter</h1><div class="tagline">10 trials · Positive / Negative · Simple daily tracking</div><div class="intro">Create your replacement-program list. Trial data stays saved locally until you clear it.</div></section>
+<details><summary>Quick Start &amp; How to Use</summary><ol class="quick">
+<li>Tap <strong>+ Add Program</strong> and enter the replacement programs you need to run.</li>
+<li>Tap a program card to make it active.</li>
+<li>For each trial, tap <strong>Positive</strong> or <strong>Negative</strong>.</li>
+<li>Each program stops automatically at <strong>10/10 trials</strong>.</li>
+<li>Use <strong>Undo Last Trial</strong> if the most recent entry was incorrect.</li>
+<li>Review the day’s data, then use <strong>Clear Daily Data</strong> when you are ready to start fresh. The program list remains saved.</li>
+</ol></details>
+<div class="top"><label>Date<input id="date" type="date"></label><label>Setting<select id="setting"><option>Preschool</option><option>Daycare</option><option>Home</option><option>Community</option><option>Other</option></select></label></div>
+<div class="actions"><button class="primary" id="add">+ Add Program</button><button id="manageBtn">Manage Programs</button><button id="shareBtn">Share App</button></div>
+<div id="manage" class="manage"><strong>Programs saved on this device</strong><div id="manageList"></div>
+<div class="transfer"><h3>Transfer Program List</h3><div class="help">Only program names are transferred. Trial outcomes, date, setting, and notes are never included.</div>
+<div class="actions"><button id="shareListBtn">Share Program List</button><button id="exportBtn">Export / Copy List</button><label class="fileLabel">Import from File<input id="fileInput" type="file" accept=".txt,.csv,.json,text/plain,text/csv,application/json"></label><button id="importBtn">Import Pasted List</button></div>
+<textarea id="transferText" placeholder="Paste a program list here, one program per line, comma-separated, or JSON."></textarea><div id="transferStatus" class="transfer-status"></div></div></div>
+<section class="active"><div class="active-title">Active replacement program</div><div id="activeProgram">Tap a program below.</div><div id="activeStats" class="active-stats">Positive 0 · Negative 0 · Trials 0/10</div>
+<div class="trial-buttons"><button id="positiveBtn" disabled>+ Positive</button><button id="negativeBtn" disabled>+ Negative</button></div><button id="undoBtn" disabled>Undo Last Trial</button></section>
+<div id="empty" class="empty"><strong>Ready to configure your trial counter.</strong>Add the replacement programs you want available on this device.<div class="starter"><button class="primary" type="button" id="starterAdd">+ Add First Program</button></div></div>
+<div id="programGrid" class="program-grid"></div>
+<div class="bottom"><div class="card"><h2>Daily summary</h2><div id="summary" class="sub">No trials recorded yet.</div></div><div class="card"><h2>General notes</h2><textarea id="notes" placeholder="Relevant session observations..."></textarea></div></div>
+<button id="clear" class="danger">Clear Daily Data</button>
+<div class="privacy"><strong>Privacy:</strong> program names and the current daily trial data are stored in this browser’s local site storage until you use <strong>Clear Daily Data</strong>. The app does not send session data to a server. Do not enter client names, initials, dates of birth, or other identifying information. Clearing browser/site data or removing the app may also remove locally stored data.</div>
+<div class="credit">Concept &amp; design: Jorge Morales + ChatGPT (OpenAI)</div>
+</main>
+<script>
+(function(){"use strict";
+const PROGRAM_KEY="abaTrialPrograms_v1",DAILY_KEY="abaTrialCounterDaily_v1",MAX_TRIALS=10;
+let programs=[],daily={},activeId=null,sessionMeta={date:"",setting:"Preschool",notes:""},storageWarningShown=false;
+const $=id=>document.getElementById(id);
+function makeId(){if(window.crypto&&typeof window.crypto.randomUUID==="function")return window.crypto.randomUUID();return "p"+Date.now()+Math.random().toString(16).slice(2)}
+function cleanName(x){return String(x||"").trim().slice(0,100)}
+function todayValue(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function duplicateName(name,ignoreId){return programs.some(p=>p.id!==ignoreId&&p.name.toLowerCase()===name.toLowerCase())}
+function programNames(){return programs.map(p=>p.name)}
+function loadPrograms(){try{const x=JSON.parse(localStorage.getItem(PROGRAM_KEY)||"[]");if(!Array.isArray(x))return[];return x.filter(v=>v&&cleanName(v.name)).map(v=>({id:String(v.id||makeId()),name:cleanName(v.name)}))}catch(e){return[]}}
+function savePrograms(){try{localStorage.setItem(PROGRAM_KEY,JSON.stringify(programs));return true}catch(e){alert("Unable to save the program list on this device.");return false}}
+function state(id){return daily[id]||(daily[id]={history:[]})}
+function normalizeHistory(h){if(!Array.isArray(h))return[];return h.filter(v=>v==="positive"||v==="negative").slice(0,MAX_TRIALS)}
+function counts(id){const h=state(id).history;let positive=0,negative=0;h.forEach(v=>v==="positive"?positive++:negative++);return{positive,negative,total:h.length}}
+function loadDaily(){try{const x=JSON.parse(localStorage.getItem(DAILY_KEY)||"null");if(!x||typeof x!=="object")return;if(x.daily&&typeof x.daily==="object")Object.entries(x.daily).forEach(([id,s])=>daily[id]={history:normalizeHistory(s&&s.history)});sessionMeta.date=typeof x.date==="string"?x.date:"";sessionMeta.setting=typeof x.setting==="string"?x.setting:"Preschool";sessionMeta.notes=typeof x.notes==="string"?x.notes.slice(0,5000):"";activeId=typeof x.activeId==="string"?x.activeId:null}catch(e){}}
+function saveDaily(){try{const cleanDaily={};programs.forEach(p=>cleanDaily[p.id]={history:normalizeHistory(state(p.id).history)});localStorage.setItem(DAILY_KEY,JSON.stringify({date:$("date").value,setting:$("setting").value,notes:$("notes").value,activeId,daily:cleanDaily}))}catch(e){if(!storageWarningShown){storageWarningShown=true;alert("Daily trial data could not be saved on this device.")}}}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
+function setActive(id){if(!programs.some(p=>p.id===id))return;activeId=id;render();saveDaily()}
+function addOutcome(outcome){if(!activeId)return;const s=state(activeId);if(s.history.length>=MAX_TRIALS)return;s.history.push(outcome);render();saveDaily()}
+function undoLast(){if(!activeId)return;const s=state(activeId);if(!s.history.length)return;s.history.pop();render();saveDaily()}
+function renderActive(){const p=programs.find(p=>p.id===activeId);if(!p){$("activeProgram").textContent="Tap a program below.";$("activeStats").textContent="Positive 0 · Negative 0 · Trials 0/10";$("positiveBtn").disabled=true;$("negativeBtn").disabled=true;$("undoBtn").disabled=true;return}const c=counts(p.id);$("activeProgram").textContent=p.name;$("activeStats").textContent="Positive "+c.positive+" · Negative "+c.negative+" · Trials "+c.total+"/10"+(c.total===MAX_TRIALS?" · Completed":"");$("positiveBtn").disabled=c.total>=MAX_TRIALS;$("negativeBtn").disabled=c.total>=MAX_TRIALS;$("undoBtn").disabled=c.total===0}
+function renderPrograms(){$("programGrid").innerHTML="";$("empty").hidden=!!programs.length;programs.forEach(p=>{const c=counts(p.id),card=document.createElement("div");card.className="program-card";if(activeId===p.id)card.classList.add("active-card");if(c.total===MAX_TRIALS)card.classList.add("completed");card.onclick=()=>setActive(p.id);card.innerHTML='<div class="program-name">'+escapeHtml(p.name)+'</div><div class="stats"><div class="stat pos"><strong>'+c.positive+'</strong><small>Positive</small></div><div class="stat neg"><strong>'+c.negative+'</strong><small>Negative</small></div><div class="stat"><strong>'+c.total+'/10</strong><small>Trials</small></div></div><div class="progress"><div style="width:'+(c.total*10)+'%"></div></div><div class="status '+(c.total===MAX_TRIALS?'completed':'inprogress')+'">'+(c.total===MAX_TRIALS?'Completed':'In Progress')+'</div>';$("programGrid").appendChild(card)})}
+function renderManage(){$("manageList").innerHTML="";programs.forEach(p=>{const row=document.createElement("div");row.className="manage-row";const name=document.createElement("span");name.textContent=p.name;const edit=document.createElement("button");edit.textContent="Edit";edit.onclick=()=>{let x=prompt("Edit program name:",p.name);if(x===null)return;x=cleanName(x);if(!x)return;if(duplicateName(x,p.id))return alert("That program is already in the list.");p.name=x;savePrograms();render()};const del=document.createElement("button");del.textContent="Delete";del.className="danger";del.onclick=()=>{if(!confirm('Delete "'+p.name+'" from this device?'))return;programs=programs.filter(q=>q.id!==p.id);delete daily[p.id];if(activeId===p.id)activeId=null;savePrograms();render();saveDaily()};row.append(name,edit,del);$("manageList").appendChild(row)});if(!programs.length)$("manageList").innerHTML='<div class="sub" style="margin-top:8px">No programs added yet.</div>'}
+function renderSummary(){let positive=0,negative=0,total=0,completed=0;programs.forEach(p=>{const c=counts(p.id);positive+=c.positive;negative+=c.negative;total+=c.total;if(c.total===MAX_TRIALS)completed++});$("summary").textContent=total?("Programs completed: "+completed+"/"+programs.length+" · Trials recorded: "+total+" · Positive: "+positive+" · Negative: "+negative):"No trials recorded yet."}
+function render(){if(activeId&&!programs.some(p=>p.id===activeId))activeId=null;renderActive();renderPrograms();renderManage();renderSummary()}
+function addProgram(){let name=prompt("Enter replacement program name:");if(name===null)return;name=cleanName(name);if(!name)return;if(duplicateName(name))return alert("That program is already in the list.");const p={id:makeId(),name};programs.push(p);savePrograms();if(!activeId)activeId=p.id;render();saveDaily()}
+function parseImported(text){text=String(text||"").trim();if(!text)return[];try{const parsed=JSON.parse(text);if(Array.isArray(parsed))return parsed.map(v=>typeof v==="string"?cleanName(v):cleanName(v&&v.name)).filter(Boolean)}catch(e){}return text.split(/\r?\n|,/).map(cleanName).filter(Boolean)}
+function applyImported(names){const unique=[];names.forEach(name=>{name=cleanName(name);if(name&&!unique.some(x=>x.toLowerCase()===name.toLowerCase()))unique.push(name)});if(!unique.length){$("transferStatus").textContent="No valid program names were found.";return}const replace=confirm("Press OK to REPLACE the current program list with the imported list.\n\nPress Cancel to MERGE the imported programs with the current list.");if(replace){programs=unique.map(name=>({id:makeId(),name}));daily={};activeId=programs.length?programs[0].id:null}else{unique.forEach(name=>{if(!duplicateName(name))programs.push({id:makeId(),name})});if(!activeId&&programs.length)activeId=programs[0].id}savePrograms();render();saveDaily();$("transferStatus").textContent="Program list imported successfully."}
+$("add").onclick=addProgram;$("starterAdd").onclick=addProgram;$("manageBtn").onclick=()=>$("manage").classList.toggle("open");$("positiveBtn").onclick=()=>addOutcome("positive");$("negativeBtn").onclick=()=>addOutcome("negative");$("undoBtn").onclick=undoLast;
+$("clear").onclick=()=>{const has=programs.some(p=>state(p.id).history.length)||$("notes").value.trim();if(has&&!confirm("Clear all daily trial data and notes? The replacement-program list will remain saved."))return;daily={};programs.forEach(p=>state(p.id));$("notes").value="";$("date").value=todayValue();activeId=programs.length?programs[0].id:null;render();saveDaily()};
+$("shareBtn").onclick=async()=>{const shareData={title:"ABA Trial Counter",text:"A configurable 10-trial counter for replacement programs.",url:location.href};try{if(navigator.share)await navigator.share(shareData);else if(navigator.clipboard){await navigator.clipboard.writeText(location.href);alert("App link copied.")}else prompt("Copy this app link:",location.href)}catch(e){}};
+$("shareListBtn").onclick=async()=>{if(!programs.length){$("transferStatus").textContent="There are no programs to share yet.";return}const text="Replacement Program List:\n"+programNames().map(x=>"• "+x).join("\n");try{if(navigator.share)await navigator.share({title:"Replacement Program List",text});else if(navigator.clipboard){await navigator.clipboard.writeText(text);$("transferStatus").textContent="Program list copied."}else prompt("Copy this program list:",text)}catch(e){}};
+$("exportBtn").onclick=async()=>{const exported=JSON.stringify(programNames(),null,2);$("transferText").value=exported;$("transferStatus").textContent="Program list prepared. No trial data is included.";try{if(navigator.clipboard){await navigator.clipboard.writeText(exported);$("transferStatus").textContent="Program list copied to clipboard. No trial data is included."}}catch(e){}};
+$("importBtn").onclick=()=>{const names=parseImported($("transferText").value);if(!names.length){$("transferStatus").textContent="Paste a list first, or use Import from File.";return}applyImported(names)};
+$("fileInput").addEventListener("change",async e=>{const file=e.target.files&&e.target.files[0];if(!file)return;if(!/\.(txt|csv|json)$/i.test(file.name)){$("transferStatus").textContent="Please choose a .txt, .csv, or .json file.";e.target.value="";return}try{const text=await file.text();$("transferText").value=text;const names=parseImported(text);if(!names.length)$("transferStatus").textContent="The selected file did not contain recognizable program names.";else applyImported(names)}catch(err){$("transferStatus").textContent="The file could not be read."}e.target.value=""});
+programs=loadPrograms();loadDaily();$("date").value=sessionMeta.date||todayValue();const validSetting=[...$("setting").options].some(o=>o.value===sessionMeta.setting);if(validSetting)$("setting").value=sessionMeta.setting;$("notes").value=sessionMeta.notes;if(!activeId&&programs.length)activeId=programs[0].id;$("date").addEventListener("change",saveDaily);$("setting").addEventListener("change",saveDaily);$("notes").addEventListener("input",saveDaily);document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")saveDaily()});window.addEventListener("pagehide",saveDaily);render();saveDaily();
+})();
+</script></body></html>
