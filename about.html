@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f7f8">
+<title>ABA Trial Counter</title>
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{--blue:#2563eb;--blue-dark:#1d4ed8;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--soft:#eff6ff;--green:#166534}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);background:radial-gradient(circle at top right,#dbeafe 0,transparent 28%),linear-gradient(180deg,#fff 0%,#f8fafc 100%)}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1040px;margin:auto;padding:18px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;min-height:70vh;padding:38px 0 24px}
+.badge{display:inline-block;padding:7px 11px;border-radius:999px;background:var(--soft);color:var(--blue-dark);font-size:.78rem;font-weight:800;margin-bottom:14px}
+h1{font-size:clamp(2.25rem,6vw,4.5rem);line-height:.98;letter-spacing:-.045em;margin:0 0 16px}
+.lead{font-size:1.06rem;line-height:1.62;color:#4b5563;max-width:670px;margin:0 0 22px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;border-radius:12px;padding:12px 17px;font-weight:850;border:1px solid var(--line);background:#fff}
+.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 8px 24px rgba(37,99,235,.18)}
+.app-card{background:rgba(255,255,255,.92);border:1px solid #dbeafe;border-radius:28px;padding:24px;box-shadow:0 22px 60px rgba(15,23,42,.10)}
+.icon{width:112px;height:112px;border-radius:26px;display:block;margin:0 auto 18px;box-shadow:0 10px 28px rgba(37,99,235,.22)}
+.app-card h2{text-align:center;margin:0 0 6px;font-size:1.3rem}
+.app-card p{text-align:center;color:var(--muted);line-height:1.5;margin:0}
+.section{padding:28px 0}
+.section h2{font-size:1.8rem;margin:0 0 8px}
+.section-intro{color:var(--muted);margin:0 0 20px;line-height:1.55}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}
+.card h3{margin:0 0 8px;font-size:1rem}
+.card p{margin:0;color:var(--muted);line-height:1.5;font-size:.91rem}
+.privacy{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:18px;padding:20px;line-height:1.55}
+.privacy strong{color:var(--green)}
+.steps{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px}
+.steps ol{margin:8px 0 0;padding-left:22px;color:#374151;line-height:1.7}
+.cta{margin-top:30px;background:linear-gradient(135deg,#1d4ed8,#2563eb 58%,#60a5fa);color:#fff;border-radius:22px;padding:28px;display:flex;justify-content:space-between;gap:22px;align-items:center}
+.cta h2{margin:0 0 6px}
+.cta p{margin:0;opacity:.9;line-height:1.5}
+.cta .btn{background:#fff;color:#1d4ed8;border-color:#fff;flex:0 0 auto}
+footer{text-align:center;color:#6b7280;font-size:.78rem;padding:26px 0 10px;line-height:1.5}
+@media(max-width:760px){.hero{grid-template-columns:1fr;min-height:auto;padding-top:26px}.app-card{max-width:420px}.grid{grid-template-columns:1fr}.cta{flex-direction:column;align-items:flex-start}.cta .btn{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section class="hero">
+  <div>
+    <div class="badge">10 trials · Clear outcomes · Local daily data</div>
+    <h1>ABA Trial Counter</h1>
+    <p class="lead">
+      A lightweight tool for recording ten trials per replacement or acquisition program.
+      For each trial, record a Positive or Negative response, monitor progress to 10/10,
+      correct the most recent entry with Undo, and keep the day’s data available until you choose to clear it.
+    </p>
+    <div class="actions">
+      <a class="btn primary" href="index.html">Open ABA Trial Counter</a>
+      <a class="btn" href="#install">How to install</a>
+    </div>
+  </div>
+
+  <div class="app-card">
+    <img class="icon" src="icon-512.png" alt="ABA Trial Counter icon">
+    <h2>ABA Trial Counter</h2>
+    <p>Configurable 10-trial tracking with Positive / Negative outcomes.</p>
+  </div>
+</section>
+
+<section class="section">
+  <h2>What it does</h2>
+  <p class="section-intro">Each user creates the program list needed on that device. The app focuses on fast trial entry rather than clinical interpretation.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>10 trials per program</h3>
+      <p>Each program automatically stops at 10/10, helping prevent accidental extra entries.</p>
+    </div>
+    <div class="card">
+      <h3>Positive / Negative</h3>
+      <p>Record one outcome for each trial and see the running totals immediately.</p>
+    </div>
+    <div class="card">
+      <h3>Undo last trial</h3>
+      <p>Correct the most recent entry quickly if the wrong outcome was tapped.</p>
+    </div>
+    <div class="card">
+      <h3>Custom program list</h3>
+      <p>Add, edit, delete, import, export, or share replacement and acquisition program names.</p>
+    </div>
+    <div class="card">
+      <h3>Daily data stays available</h3>
+      <p>Trial outcomes, date, setting, and notes remain locally available after closing the app until Clear Daily Data is used.</p>
+    </div>
+    <div class="card">
+      <h3>No account required</h3>
+      <p>Open the web app in a supported browser and configure it directly on the device.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="privacy">
+    <strong>Privacy by design:</strong>
+    program names and current daily trial data are stored in the browser’s local site storage.
+    The app does not send session data to a server and does not request client-identifying information.
+    Do not enter client names, initials, dates of birth, or other identifying information.
+  </div>
+</section>
+
+<section class="section" id="install">
+  <h2>Add it to your Home Screen</h2>
+  <p class="section-intro">Once added, ABA Trial Counter opens from its own icon like a standalone app.</p>
+  <div class="steps">
+    <ol>
+      <li><strong>iPhone:</strong> open ABA Trial Counter in Safari, tap Share, then choose <strong>Add to Home Screen</strong>.</li>
+      <li><strong>Android:</strong> open it in Chrome, open the browser menu, then choose <strong>Add to Home screen</strong> or the available install option.</li>
+      <li>Open the new <strong>Trial Counter</strong> icon from the Home Screen.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="cta">
+  <div>
+    <h2>Ready to start?</h2>
+    <p>Open the counter, configure your program list, and begin recording trials.</p>
+  </div>
+  <a class="btn" href="index.html">Open the Counter</a>
+</section>
+
+<footer>
+  Concept &amp; design: Jorge Morales + ChatGPT (OpenAI)<br>
+  ABA Trial Counter is a general-purpose trial-recording tool. It does not replace required clinical documentation, a treatment plan, supervision, or professional judgment.
+</footer>
+
+</div>
+</body>
+</html>
